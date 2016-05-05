@@ -49,6 +49,7 @@
         <config-file target="config.xml" parent="/*">
             <feature name="Mixpanel">
                 <param name="ios-package" value="MixpanelPlugin"/>
+                <param name="onload" value="true" />
             </feature>
         </config-file>
 
