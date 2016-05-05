@@ -8,7 +8,8 @@
 // empty
 }
 
-
+//Use to store launchOptions to track open rate.
+@property (strong, nonatomic) NSDictionary* launchOptions;
 
 // MIXPANEL API
 

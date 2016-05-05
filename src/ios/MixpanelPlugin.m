@@ -3,6 +3,26 @@
 @implementation MixpanelPlugin
 
 
+- (void)pluginInitialize {
+
+  // Add Listener for application launch to add launch options
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(applicationDidFinishLaunching:)
+                                               name:UIApplicationDidFinishLaunchingNotification object:nil];
+
+}
+
+- (void) applicationDidFinishLaunching:(NSNotification *) notification {
+  NSDictionary* launchOptions = notification.userInfo;
+
+  if (launchOptions == nil) {
+    //launchOptions is nil when not start because of notification or url open
+    launchOptions = [NSDictionary dictionary];
+  }
+
+  self.launchOptions = launchOptions;
+}
+
 // MIXPANEL API
 
 
@@ -91,8 +111,8 @@
     NSArray* arguments = command.arguments;
     NSString* token = [arguments objectAtIndex:0];
 
-    Mixpanel* mixpanelInstance = [Mixpanel sharedInstanceWithToken:token];
-    [mixpanelInstance setFlushInterval:60];
+    Mixpanel* mixpanelInstance = [Mixpanel sharedInstanceWithToken:token launchOptions: self.launchOptions];
+    [mixpanelInstance setFlushInterval:20];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
